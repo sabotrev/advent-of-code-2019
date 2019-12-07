@@ -42,18 +42,42 @@ const calculateIntCode = instructions => {
 
     if (opCode === "1") {
       instructions[output] = a + b;
+
       i += 4;
     } else if (opCode === "2") {
       instructions[output] = a * b;
+
       i += 4;
     } else if (opCode === "3") {
-      instructions[instructions[i + 1]] = 1;
+      instructions[instructions[i + 1]] = 5;
+
       i += 2;
     } else if (opCode === "4") {
       if (A === "0") {
         diagnosticCode = instructions[instructions[i + 1]];
       }
+
       i += 2;
+    } else if (opCode === "5") {
+      i += 3;
+
+      if (a !== 0) {
+        i = b;
+      }
+    } else if (opCode === "6") {
+      i += 3;
+
+      if (a === 0) {
+        i = b;
+      }
+    } else if (opCode === "7") {
+      instructions[output] = a < b ? 1 : 0;
+
+      i += 4;
+    } else if (opCode === "8") {
+      instructions[output] = a === b ? 1 : 0;
+
+      i += 4;
     }
   }
   return diagnosticCode;

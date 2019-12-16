@@ -5,7 +5,9 @@ const input = fs
   .toString()
   .split("\n");
 
-const inputTest = "COM)B,B)C,C)D,D)E,E)F,B)G,G)H,D)I,E)J,J)K,K)L".split(",");
+const inputTest = "COM)B,B)C,C)D,D)E,E)F,B)G,G)H,D)I,E)J,J)K,K)L,K)YOU,I)SAN".split(
+  ","
+);
 
 const parse = orbitArr => {
   let hash = {};
@@ -45,14 +47,18 @@ const ancestors = (hash, id) => {
   return nodes;
 };
 
-const getOrbitCount = hash => {
-  let sum = 0;
-  Object.keys(hash).map(node => {
-    sum += ancestors(hash, node).length;
-  });
+const minTransfers = hash => {
+  const youAncestors = ancestors(hash, "YOU");
+  const santaAncestors = ancestors(hash, "SAN");
 
-  return sum;
+  for (let i = 0; i < youAncestors.length; i++) {
+    if (santaAncestors.includes(youAncestors[i])) {
+      return i + santaAncestors.indexOf(youAncestors[i]);
+    }
+  }
+
+  return null;
 };
 
 const parsedInput = parse(input);
-console.log(getOrbitCount(parsedInput));
+console.log(minTransfers(parsedInput));
